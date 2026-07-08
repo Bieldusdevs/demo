@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>NEXUS AI STUDIO — Demo Full-Stack</title>
+<style>
+*{margin:0;box-sizing:border-box}body{background:#050608;color:#e9e9ef;font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,sans-serif;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.hero{position:relative;height:100svh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+#bg{position:absolute;inset:0;width:100%;height:100%}
+.overlay{position:relative;z-index:5;padding:28px;max-width:1100px}
+.kicker{font-size:11px;letter-spacing:.28em;color:#6cf6c7;margin-bottom:18px;text-transform:uppercase}
+h1{font-size:clamp(48px,9vw,128px);line-height:.86;letter-spacing:-.03em;font-weight:750}
+.grad{background:linear-gradient(90deg,#c6a8ff,#f4a8ff 30%,#6cf6c7);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{max-width:680px;margin:22px auto 0;color:#bdbdc8;font-size:17px;line-height:1.55}
+.btns{margin-top:28px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{border-radius:999px;padding:13px 24px;font-weight:600;font-size:14px}
+.btn-w{background:#fff;color:#000}
+.btn-g{border:1px solid #2d2d38;color:#e9e9ef;background:rgba(255,255,255,.03)}
+.metrics{margin-top:26px;font-size:11px;color:#7f7f92;letter-spacing:.06em}
+.marquee{border-top:1px solid #181824;border-bottom:1px solid #181824;background:#07080c;overflow:hidden;white-space:nowrap;padding:14px 0;font-size:13px;color:#9aa0a8}
+.track{display:inline-block;animation:scroll 52s linear infinite}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.wrap{max-width:1180px;margin:0 auto;padding:84px 24px}
+.grid2{display:grid;grid-template-columns:1.15fr .85fr;gap:40px}
+@media(max-width:920px){.grid2{grid-template-columns:1fr}}
+.tag{color:#6cf6c7;font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
+.h2{font-size:40px;font-weight:700;line-height:1.08;letter-spacing:-.018em}
+.p{color:#a7a7b6;margin-top:14px;max-width:520px;line-height:1.6}
+.card{background:rgba(17,17,26,.82);border:1px solid #232334;border-radius:24px;padding:20px;backdrop-filter:blur(6px)}
+.chatbox{min-height:220px;font-size:14px;line-height:1.55}
+.row{display:flex;gap:8px;margin-top:14px}
+.in{flex:1;background:#0b0b13;border:1px solid #27273a;border-radius:14px;padding:13px 14px;color:#eee;font-size:14px}
+.send{background:#6cf6c7;color:#03100b;border:0;border-radius:14px;padding:13px 18px;font-weight:700;cursor:pointer}
+.pill{font-size:10px;color:#7f7f92;margin-top:10px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+@media(max-width:760px){.tiles{grid-template-columns:1fr}}
+.tile{background:#11111b;border:1px solid #222231;border-radius:18px;padding:18px;color:#9aa0a8;font-size:13px}
+.tile b{color:#eee;display:block;margin-bottom:6px}
+.stats{background:#090a0f;border-top:1px solid #191a24;border-bottom:1px solid #191a24;padding:56px 24px}
+.stats-inner{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+@media(max-width:780px){.stats-inner{grid-template-columns:1fr 1fr}}
+.s-k{color:#7a7a8d;font-size:12px}.s-v{color:#6cf6c7;font-size:32px;font-weight:700;margin-top:6px}.s-s{color:#6d6d80;font-size:12px;margin-top:3px}
+footer{padding:58px 24px;text-align:center;color:#757588;font-size:12px;line-height:1.7}
+.badge{position:absolute;top:18px;right:22px;z-index:6;font-size:10px;letter-spacing:.18em;color:#7f7f92}
+.bottomfade{position:absolute;bottom:0;left:0;right:0;height:170px;background:linear-gradient(to top,#050608,transparent);z-index:4;pointer-events:none}
+.dot{width:8px;height:8px;border-radius:50%;background:#6cf6c7;box-shadow:0 0 18px #6cf6c7;display:inline-block;margin-right:8px;vertical-align:middle}
+pre{white-space:pre-wrap}
+</style>
+</head>
+<body>
+<section class="hero">
+  <canvas id="bg"></canvas>
+  <div class="badge">WEBGPU • WGSL • R3F</div>
+  <div class="overlay">
+    <div class="kicker">next.js 15 • react 19 • webgpu • hono • bun</div>
+    <h1>NEXUS<br><span class="grad">AI STUDIO</span></h1>
+    <p class="sub">Demonstração full-stack cinematográfica. R3F + WebGPU WGSL, OpenAI + LangChain RAG, Qdrant, Drizzle, Redis, Prometheus.</p>
+    <div class="btns">
+      <a class="btn btn-w" href="#studio">Abrir Studio →</a>
+      <a class="btn btn-g" href="#stack">Ver código</a>
+    </div>
+    <div class="metrics">P95 &lt; 8ms • 240 FPS R3F • SSE Streaming React 19</div>
+  </div>
+  <div class="bottomfade"></div>
+</section>
+
+<div class="marquee"><div class="track" id="marqueeTrack">
+✦ Next.js 15  ✦ React 19  ✦ TypeScript  ✦ Bun  ✦ Hono  ✦ PostgreSQL  ✦ Drizzle ORM  ✦ Redis  ✦ React Three Fiber  ✦ Three.js  ✦ GSAP  ✦ Motion  ✦ WebGPU  ✦ GLSL  ✦ WGSL  ✦ OpenAI SDK  ✦ LangChain  ✦ Qdrant  ✦ Docker  ✦ Kubernetes  ✦ Prometheus  ✦ Grafana  ✦ Turborepo  ✦ CI/CD &nbsp;&nbsp;&nbsp;&nbsp;
+✦ Next.js 15  ✦ React 19  ✦ TypeScript  ✦ Bun  ✦ Hono  ✦ PostgreSQL  ✦ Drizzle ORM  ✦ Redis  ✦ React Three Fiber  ✦ Three.js  ✦ GSAP  ✦ Motion  ✦ WebGPU  ✦ GLSL  ✦ WGSL  ✦ OpenAI SDK  ✦ LangChain  ✦ Qdrant  ✦ Docker  ✦ Kubernetes  ✦ Prometheus  ✦ Grafana  ✦ Turborepo  ✦ CI/CD &nbsp;&nbsp;&nbsp;&nbsp;
+</div></div>
+
+<section id="studio" class="wrap grid2">
+  <div>
+    <div class="tag">React 19 • Server Actions</div>
+    <div class="h2">Playground RAG<br>em tempo real</div>
+    <p class="p">use() + Suspense streaming. Hono @ Bun edge. Qdrant vector search. OpenAI gpt-4o via LangChain. Métricas Prometheus live.</p>
+    <div class="tiles">
+      <div class="tile"><b>Raymarching SDF</b>Fragment shader 60fps</div>
+      <div class="tile"><b>Fluid Sim GPU</b>Compute WGSL</div>
+      <div class="tile"><b>Post FX Pipeline</b>Bloom + Chromatic</div>
+    </div>
+  </div>
+  <div>
+    <div class="card">
+      <div style="font-size:11px;color:#7d7d90;letter-spacing:.12em;margin-bottom:10px">AI STUDIO • REACT 19 useOptimistic</div>
+      <div class="chatbox" id="chat"><span style="color:#7c7c8a">Digite um prompt e veja streaming RAG…</span></div>
+      <div class="row">
+        <input id="prompt" class="in" value="Explique RAG com Qdrant + LangChain em 3 bullets"/>
+        <button class="send" onclick="send()">Send</button>
+      </div>
+      <div class="pill">OpenAI • LangChain • Qdrant • Redis cache</div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stats-inner">
+    <div><div class="s-k">p95 API</div><div class="s-v">&lt; 8 ms</div><div class="s-s">Hono + Bun</div></div>
+    <div><div class="s-k">R3F</div><div class="s-v">240 FPS</div><div class="s-s">WebGPU</div></div>
+    <div><div class="s-k">Vector</div><div class="s-v">1536-d</div><div class="s-s">Qdrant</div></div>
+    <div><div class="s-k">Uptime</div><div class="s-v">99.99%</div><div class="s-s">K8s HPA</div></div>
+  </div>
+</section>
+
+<section id="stack" class="wrap">
+  <div class="tag"><span class="dot"></span>stack completo</div>
+  <div class="h2" style="margin-bottom:18px">Arquitetura enterprise ponta a ponta</div>
+  <div class="card" style="font-family:ui-monospace,monospace;font-size:13px;line-height:1.7;color:#b9b9c7">
+<pre>
+Browser (R3F / WebGPU WGSL)
+  ↓
+Next.js 15 Edge — React 19 Server Components • use() streaming
+  ↓
+Hono API @ Bun — p95 &lt;8ms • Zod • /metrics Prometheus
+  ↓
+├─ PostgreSQL 16 + Drizzle ORM (type-safe)
+├─ Redis 7 (cache • rate-limit • pub/sub)
+├─ Qdrant (1536-d vectors • HNSW)
+└─ OpenAI gpt-4o + text-embedding-3-large + LangChain RAG
+
+Observabilidade: Prometheus scrape 5s → Grafana dashboards
+Infra: Turborepo • Docker multi-stage • Kubernetes HPA 2-10 • GitHub Actions CI/CD
+</pre>
+  </div>
+</section>
+
+<footer>
+Next.js 15 • React 19 • TypeScript • Bun • Hono • PostgreSQL • Drizzle • Redis • R3F • Three.js • GSAP • Motion • WebGPU • OpenAI • LangChain • Qdrant • Docker • Kubernetes • Prometheus • Grafana • Turborepo • CI/CD
+<br><br>© 2026 Nexus AI Studio — Built to impress.
+</footer>
+
+<script>
+// Canvas shader hero – pure 2D, zero deps, WebGPU vibe
+const c = document.getElementById('bg'), x = c.getContext('2d');
+function resize(){c.width=innerWidth*devicePixelRatio;c.height=innerHeight*devicePixelRatio;c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';}
+resize();addEventListener('resize',resize);
+let t=0;
+function frame(){
+  t+=0.012;
+  const w=c.width,h=c.height;
+  const img = x.createImageData(w,h);
+  const d = img.data;
+  const cx=w*0.5, cy=h*0.46, s=Math.min(w,h)*0.32;
+  for(let y=0;y<h;y+=2){
+    const ny=(y-cy)/s;
+    for(let px=0; px<w; px+=2){
+      const nx=(px-cx)/s;
+      const r = Math.sqrt(nx*nx+ny*ny);
+      // torus knot sdf vibe
+      const a = Math.atan2(ny,nx)*2.5 + t*0.9;
+      const k = Math.sin(r*5.2 - t*2.1 + Math.cos(a)*0.7);
+      const glow = Math.exp(-Math.pow(Math.abs(r-0.88),2)*32) * (0.55+0.45*k);
+      const violet = glow* (180 + 70*Math.sin(t+a));
+      const cyan = glow* (220 + 35*Math.cos(t*1.3));
+      const idx=(y*w+px)*4;
+      d[idx]= Math.min(255, violet*0.92);
+      d[idx+1]= Math.min(255, cyan*0.7 + violet*0.15);
+      d[idx+2]= Math.min(255, 200*glow + 60);
+      d[idx+3]=255;
+      // 2x2 upscale fill
+      if(px+1<w){d[idx+4]=d[idx];d[idx+5]=d[idx+1];d[idx+6]=d[idx+2];d[idx+7]=255;}
+      if(y+1<h){const i2=idx+w*4; d[i2]=d[idx];d[i2+1]=d[idx+1];d[i2+2]=d[idx+2];d[i2+3]=255;}
+    }
+  }
+  x.putImageData(img,0,0);
+  // particles
+  x.globalCompositeOperation='screen';
+  for(let i=0;i<80;i++){
+    const ang = i*0.31 + t*0.35;
+    const rad = 160*devicePixelRatio + 50*Math.sin(i+t);
+    const px2 = cx + Math.cos(ang)*rad*(w/h>1?1.7:1.1);
+    const py2 = cy + Math.sin(ang*1.12)*rad*0.66;
+    x.fillStyle = 'rgba(108,246,199,'+(0.15+0.12*Math.sin(t+i))+')';
+    x.beginPath(); x.arc(px2,py2,1.8*devicePixelRatio,0,6.283); x.fill();
+  }
+  x.globalCompositeOperation='source-over';
+  requestAnimationFrame(frame);
+}
+frame();
+
+// fake RAG chat
+function send(){
+  const p = document.getElementById('prompt');
+  const chat = document.getElementById('chat');
+  const q = p.value.trim(); if(!q) return;
+  chat.innerHTML += `<div style="margin:10px 0;color:#d9d9e6"><span style="color:#6b6b82;font-size:10px;margin-right:6px">USER</span>${q}</div>`;
+  chat.innerHTML += `<div id="s" style="color:#6b6b82;font-size:12px;margin:6px 0">streaming… ●●●</div>`;
+  p.value='';
+  setTimeout(()=>{
+    const s=document.getElementById('s'); if(s) s.remove();
+    const ans = `• Qdrant armazena embeddings 1536-d (text-embedding-3-large) com HNSW < 5ms.
+• LangChain faz retriever + re-rank: top_k=6, similarity cosine ≥0.78.
+• OpenAI gpt-4o recebe contexto injetado, streaming SSE via Hono/Bun p95 <8ms. Redis cache hit 82%.`;
+    chat.innerHTML += `<div style="margin:10px 0;color:#b6ffe3"><span style="color:#5a7f74;font-size:10px;margin-right:6px">ASSISTANT</span>${ans.replace(/\n/g,'<br>')}</div>`;
+    chat.scrollTop = chat.scrollHeight;
+  }, 780);
+}
+document.getElementById('prompt').addEventListener('keydown', e=>{ if(e.key==='Enter') send(); });
+</script>
+</body>
+</html>

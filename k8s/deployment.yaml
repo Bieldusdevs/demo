@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nexus-web
+  labels: { app: nexus-web }
+spec:
+  replicas: 3
+  selector: { matchLabels: { app: nexus-web } }
+  template:
+    metadata:
+      labels: { app: nexus-web }
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3000"
+    spec:
+      containers:
+      - name: web
+        image: nexus/web:latest
+        ports: [{ containerPort: 3000 }]
+        env:
+        - { name: NODE_ENV, value: "production" }
+        - { name: API_URL, value: "http://nexus-api:8787" }
+        resources:
+          requests: { cpu: "250m", memory: "256Mi" }
+          limits: { cpu: "1000m", memory: "512Mi" }
+        readinessProbe:
+          httpGet: { path: /, port: 3000 }
+          initialDelaySeconds: 5
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nexus-api
+  labels: { app: nexus-api }
+spec:
+  replicas: 3
+  selector: { matchLabels: { app: nexus-api } }
+  template:
+    metadata:
+      labels: { app: nexus-api }
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8787"
+    spec:
+      containers:
+      - name: api
+        image: nexus/api:latest
+        ports: [{ containerPort: 8787 }]
+        env:
+        - { name: DATABASE_URL, valueFrom: { secretKeyRef: { name: nexus-secrets, key: database-url } } }
+        - { name: OPENAI_API_KEY, valueFrom: { secretKeyRef: { name: nexus-secrets, key: openai } } }
+        - { name: REDIS_URL, value: "redis://redis:6379" }
+        - { name: QDRANT_URL, value: "http://qdrant:6333" }
+        resources:
+          requests: { cpu: "200m", memory: "256Mi" }
+          limits: { cpu: "800m", memory: "512Mi" }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: nexus-web }
+spec:
+  selector: { app: nexus-web }
+  ports: [{ port: 80, targetPort: 3000 }]
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata: { name: nexus-api }
+spec:
+  selector: { app: nexus-api }
+  ports: [{ name: http, port: 8787, targetPort: 8787 }, { name: metrics, port: 9090, targetPort: 8787 }]
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata: { name: nexus-api-hpa }
+spec:
+  scaleTargetRef: { apiVersion: apps/v1, kind: Deployment, name: nexus-api }
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource: { name: cpu, target: { type: Utilization, averageUtilization: 65 } }

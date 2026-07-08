@@ -1,0 +1,10 @@
+FROM oven/bun:1.1-alpine
+WORKDIR /app
+COPY apps/api/package.json ./
+COPY packages/db ./packages/db
+COPY packages/ai ./packages/ai
+RUN bun install --production
+COPY apps/api ./
+EXPOSE 8787
+HEALTHCHECK --interval=10s CMD wget -qO- http://localhost:8787/health || exit 1
+CMD ["bun", "run", "src/index.ts"]

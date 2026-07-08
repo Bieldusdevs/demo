@@ -1,0 +1,13 @@
+{
+  "name": "@nexus/ai",
+  "version": "0.0.0",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "dependencies": {
+    "openai": "^4.73.0",
+    "langchain": "^0.3.7",
+    "@langchain/openai": "^0.3.7",
+    "@langchain/community": "^0.3.20",
+    "zod": "^3.23.8"
+  }
+}

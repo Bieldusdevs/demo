@@ -1,0 +1,12 @@
+{
+  "title": "Nexus AI Studio",
+  "uid": "nexus",
+  "panels": [
+    {"title":"API p95 latency", "type":"timeseries", "targets":[{"expr":"nexus_http_request_duration_avg_ms"}]},
+    {"title":"RPS", "type":"stat", "targets":[{"expr":"rate(nexus_http_requests_total[1m])"}]},
+    {"title":"OpenAI tokens", "type":"timeseries"},
+    {"title":"Qdrant vector latency", "type":"timeseries"},
+    {"title":"Redis hit rate", "type":"gauge"},
+    {"title":"Postgres connections", "type":"stat"}
+  ]
+}
