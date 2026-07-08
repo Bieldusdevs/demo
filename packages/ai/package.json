@@ -3,11 +3,20 @@
   "version": "0.0.0",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
+  "sideEffects": false,
+  "engines": { "node": "22.x" },
   "dependencies": {
     "openai": "^4.73.0",
-    "langchain": "^0.3.7",
-    "@langchain/openai": "^0.3.7",
-    "@langchain/community": "^0.3.20",
     "zod": "^3.23.8"
+  },
+  "peerDependencies": {
+    "langchain": "*",
+    "@langchain/openai": "*",
+    "@langchain/community": "*"
+  },
+  "peerDependenciesMeta": {
+    "langchain": { "optional": true },
+    "@langchain/openai": { "optional": true },
+    "@langchain/community": { "optional": true }
   }
 }

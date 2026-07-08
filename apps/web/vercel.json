@@ -1,6 +1,7 @@
 {
-  "buildCommand": "cd ../.. && pnpm install && pnpm turbo build --filter=@nexus/web...",
-  "installCommand": "pnpm install",
+  "installCommand": "cd ../.. && corepack enable && pnpm install --filter @nexus/web... --no-frozen-lockfile --ignore-scripts",
+  "buildCommand": "cd ../.. && pnpm turbo build --filter=@nexus/web...",
   "framework": "nextjs",
-  "outputDirectory": ".next"
+  "outputDirectory": ".next",
+  "nodeVersion": "22.x"
 }
