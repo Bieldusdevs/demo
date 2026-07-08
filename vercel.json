@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "corepack enable && corepack prepare pnpm@9.12.3 --activate && pnpm install --filter @nexus/web... --no-frozen-lockfile --legacy-peer-deps",
+  "buildCommand": "pnpm turbo build --filter=@nexus/web...",
+  "framework": "nextjs",
+  "outputDirectory": "apps/web/.next",
+  "regions": ["gru1", "iad1"]
+}
